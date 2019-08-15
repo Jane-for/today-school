@@ -1,0 +1,199 @@
+<template>
+	<view class="bg-white" style="margin: 0; padding: 0;">
+		<!-- 轮播开始 -->
+		<view class="cu-bar bg-white">
+			<view class="action">
+				<text class="cuIcon-title text-pink"></text> TODAY校园
+			</view>
+		</view>
+		<swiper style="background: #FFFFFF;" class="card-swiper" :class="dotStyle?'square-dot':'round-dot'" :indicator-dots="true"
+		 :circular="true" :autoplay="true" interval="5000" duration="500" @change="cardSwiper" indicator-color="#8799a3"
+		 indicator-active-color="#0081ff">
+			<swiper-item v-for="(item,index) in carList" :key="index" :class="cardCur==index?'cur':''">
+				<view class="swiper-item">
+					<image :src="item.carImgurl" mode="aspectFill" ></image>
+				</view>
+			</swiper-item>
+		</swiper>
+
+		<!-- 推荐开始 -->
+		<view class="cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold text-blue">| 最火商品</text>
+				<text class="text-ABC text-blue">TOP</text>
+			</view>
+		</view>
+
+		<view class="cu-list menu-avatar">
+			<view class="cu-item cur" @click="ing()">
+				<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81020.jpg);">
+					<!-- <view class="cu-tag badge"></view> -->
+				</view>
+				<view class="content">
+					<view>
+						<view class="text-cut">卫龙辣条</view>
+					</view>
+					<view class="text-gray text-sm flex">
+						<view class="text-cut"> 超好吃
+						</view>
+					</view>
+				</view>
+				<view class="action">
+				</view>
+			</view>
+		</view>
+		<!-- 店铺列表 -->
+		<view class="cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold text-blue">| 店铺列表</text>
+				<text class="text-ABC text-blue">TOP</text>
+			</view>
+		</view>
+
+		<view class="cu-list menu-avatar" @click="ing()">
+			<view class="cu-item cur">
+				<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81020.jpg);"></view>
+				<view class="content">
+					<view>
+						<view class="text-cut">零食小铺</view>
+					</view>
+					<view class="text-gray text-sm flex">
+						<view class="text-cut">急速送达</view>
+					</view>
+				</view>
+				<view class="action">
+					<view class="cu-tag round bg-red sm">5</view>
+				</view>
+			</view>
+		</view>
+		<!-- 推荐开始 -->
+		<view class="cu-bar bg-white">
+			<view class="action sub-title">
+				<text class="text-xl text-bold text-blue">| 最新任务</text>
+				<text class="text-ABC text-blue">NEW</text>
+			</view>
+		</view>
+
+		<view class="cu-list menu-avatar">
+
+
+			<view class="cu-item cur">
+				<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81020.jpg);">
+					<view class="cu-tag badge"></view>
+				</view>
+				<view class="content">
+					<view>
+						<view class="text-cut">戴总</view>
+						<view class="cu-tag round bg-orange sm">10人</view>
+					</view>
+					<view class="text-gray text-sm flex">
+						<view class="text-cut"> 发传单<text class="cuIcon-locationfill text-orange margin-right-xs"></text>招人中</view>
+					</view>
+				</view>
+				<view class="action">
+					<view class="text-grey text-xs">22:20</view>
+				</view>
+			</view>
+
+		</view>
+	</view>
+
+
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				cardCur: 0,
+				carList: [],
+				dotStyle: false,
+				towerStart: 0,
+				direction: ''
+			};
+		},
+		onLoad() {
+			let that = this;
+			uni.request({
+				url: that.OthUrl + '/carousel/getAll',
+				method: 'GET',
+				data: {},
+				success: res => {
+					that.carList = res.data.result
+				},
+				fail: () => {},
+				complete: () => {}
+			});
+		},
+		methods: {
+			ing() {
+				uni.showToast({
+					title: '待开发',
+					icon: 'none'
+				});
+			},
+			DotStyle(e) {
+				this.dotStyle = e.detail.value
+			},
+			// cardSwiper
+			cardSwiper(e) {
+				this.cardCur = e.detail.current
+			},
+			// towerSwiper
+			// 初始化towerSwiper
+			TowerSwiper(name) {
+				let list = this[name];
+				for (let i = 0; i < list.length; i++) {
+					list[i].zIndex = parseInt(list.length / 2) + 1 - Math.abs(i - parseInt(list.length / 2))
+					list[i].mLeft = i - parseInt(list.length / 2)
+				}
+				this.swiperList = list
+			},
+
+			// towerSwiper触摸开始
+			TowerStart(e) {
+				this.towerStart = e.touches[0].pageX
+			},
+
+			// towerSwiper计算方向
+			TowerMove(e) {
+				this.direction = e.touches[0].pageX - this.towerStart > 0 ? 'right' : 'left'
+			},
+
+			// towerSwiper计算滚动
+			TowerEnd(e) {
+				let direction = this.direction;
+				let list = this.swiperList;
+				if (direction == 'right') {
+					let mLeft = list[0].mLeft;
+					let zIndex = list[0].zIndex;
+					for (let i = 1; i < this.swiperList.length; i++) {
+						this.swiperList[i - 1].mLeft = this.swiperList[i].mLeft
+						this.swiperList[i - 1].zIndex = this.swiperList[i].zIndex
+					}
+					this.swiperList[list.length - 1].mLeft = mLeft;
+					this.swiperList[list.length - 1].zIndex = zIndex;
+				} else {
+					let mLeft = list[list.length - 1].mLeft;
+					let zIndex = list[list.length - 1].zIndex;
+					for (let i = this.swiperList.length - 1; i > 0; i--) {
+						this.swiperList[i].mLeft = this.swiperList[i - 1].mLeft
+						this.swiperList[i].zIndex = this.swiperList[i - 1].zIndex
+					}
+					this.swiperList[0].mLeft = mLeft;
+					this.swiperList[0].zIndex = zIndex;
+				}
+				this.direction = ""
+				this.swiperList = this.swiperList
+			},
+		}
+	}
+</script>
+
+<style>
+	.tower-swiper .tower-item {
+		transform: scale(calc(0.5 + var(--index) / 10));
+		margin-left: calc(var(--left) * 100upx - 150upx);
+		z-index: var(--index);
+	}
+</style>
