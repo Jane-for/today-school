@@ -27,7 +27,7 @@
     
 > ## 技术栈  
   ### 后端
-    后端项目见..   
+   <https://github.com/Jane-for/today-school-j>  
     springboot + mybatis + jwt + generate + maven	
 
   ### 前端
