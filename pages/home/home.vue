@@ -50,12 +50,20 @@
 						<text>我的任务</text>
 					</view>
 				</view>
-				<view class="flex-sub">
+				<view v-if="ifPutMer == 0" class="flex-sub" @click="toUserPutMer()">
 					<view class="padding align-center">
 						<text class="cuIcon-form"></text>
 					</view>
 					<view class="padding align-center">
 						<text>申请店铺</text>
+					</view>
+				</view>
+				<view v-if="ifPutMer == 1" class="flex-sub" @click="toMyMer()">
+					<view class="padding align-center">
+						<text class="cuIcon-form"></text>
+					</view>
+					<view class="padding align-center">
+						<text>我的店铺</text>
 					</view>
 				</view>
 			</view>
@@ -103,18 +111,58 @@
 				user_token: '',
 				userinfo: {
 					'userMoney': '888'
-				}
+				},
+				ifPutMer: 0
 
 			}
 		},
 		onLoad: function(option) {
-			let that = this;
-			that.userinfo = uni.getStorageSync("userinfo");
-			that.avatarUrl = uni.getStorageSync("avatarUrl");
-			that.nickNames = uni.getStorageSync("nickNames");
-
+			this.upNew();
+		},
+		onPullDownRefresh: function() {
+			this.upNew();
 		},
 		methods: {
+			toMyMer() {
+				uni.navigateTo({
+					url: '../merchant/ifUserPutMer/ifUserPutMer',
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			upNew() {
+				uni.showNavigationBarLoading();
+				let that = this;
+				that.userinfo = uni.getStorageSync("userinfo");
+				that.avatarUrl = uni.getStorageSync("avatarUrl");
+				that.nickNames = uni.getStorageSync("nickNames");
+				that.user_token = uni.getStorageSync("user_token");
+				uni.request({
+					url: that.MerUrl + '/mer/ifUserPutMer',
+					method: 'POST',
+					header: {
+						'user_token': that.user_token
+					},
+					data: {},
+					success: res => {
+						that.ifPutMer = res.data.result;
+						uni.hideNavigationBarLoading();
+						uni.stopPullDownRefresh();
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+
+			},
+			toUserPutMer() {
+				uni.navigateTo({
+					url: '../merchant/userPutMerchant/userPutMerchant',
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
 			wwxn() {
 				uni.showToast({
 					title: ':)',
