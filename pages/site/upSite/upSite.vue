@@ -2,7 +2,7 @@
 	<view>
 		<view class="cu-form-group margin-top">
 			<view class="title">学校</view>
-			<input placeholder="请输入学校" v-model="site.othSchool"></input>
+			<input placeholder="请输入学校" v-model="site.othSchool" type="text"></input>
 		</view>
 		<view class="cu-form-group">
 			<view class="title">宿舍</view>
@@ -20,7 +20,7 @@
 			<text class="text-grey">#提示:请认真填写哦~</text>
 		</view>
 		<view class="padding flex flex-direction" style="margin-top: 50rpx;">
-			<button class="cu-btn bg-red margin-tb-sm lg" style="background: #2486b9;" @tap="showModal" data-target="DialogModal1">添加地址</button>
+			<button class="cu-btn bg-red margin-tb-sm lg" style="background: #2486b9;" @tap="showModal" data-target="DialogModal1">更新地址</button>
 		</view>
 
 		<view class="cu-modal" :class="yesOrNoName=='DialogModal1'?'show':''">
@@ -32,7 +32,7 @@
 					</view>
 				</view>
 				<view class="padding-xl">
-					你确定添加地址吗?
+					你确定更新地址吗?
 				</view>
 				<view class="cu-bar bg-white justify-end">
 					<view class="action">
@@ -59,6 +59,7 @@
 		onLoad() {
 			let token = uni.getStorageSync("user_token");
 			this.user_token = token;
+			this.site = uni.getStorageSync("old_item");
 		},
 		methods: {
 			showModal(e) {
@@ -103,18 +104,18 @@
 				let that = this;
 				that.yesOrNoName = null;
 				uni.request({
-					url: that.MerUrl + '/site/userAddSite',
+					url: that.MerUrl + '/site/userUpSite',
 					method: 'POST',
 					header: {
 						'user_token': that.user_token
 					},
 					data: that.site,
 					success: res => {
+						var info = res.data.result;
 						uni.showToast({
-							title: '添加成功',
+							title: '' + info,
 							icon: 'none',
 							success() {
-
 								uni.navigateBack({
 									delta: 1,
 								});

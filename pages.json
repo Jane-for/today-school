@@ -74,10 +74,17 @@
 			"style": {
 				"navigationBarTitleText": "添加地址"
 			}
+		}, {
+			"path": "pages/test/test",
+			"style": {
+				"navigationBarTitleText": "没什么用的页面"
+			}
 		}
 	    ,{
-            "path" : "pages/test/test",
-            "style" : {}
+            "path" : "pages/site/upSite/upSite",
+            "style" : {
+				"navigationBarTitleText":"更新地址"
+			}
         }
     ],
 	"tabBar": {
