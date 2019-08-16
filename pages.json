@@ -53,18 +53,31 @@
 			"style": {
 				"navigationBarTitleText": "更新任务信息"
 			}
+		}, {
+			"path": "pages/merchant/userPutMerchant/userPutMerchant",
+			"style": {
+				"navigationBarTitleText": "申请店铺"
+			}
+		}, {
+			"path": "pages/merchant/ifUserPutMer/ifUserPutMer",
+			"style": {
+				"navigationBarTitleText": "审核中"
+			}
+		}, {
+			"path": "pages/site/site",
+			"style": {
+				"navigationBarTitleText": "地址管理",
+				"enablePullDownRefresh": true
+			}
+		}, {
+			"path": "pages/site/addSite/addSite",
+			"style": {
+				"navigationBarTitleText": "添加地址"
+			}
 		}
 	    ,{
-            "path" : "pages/merchant/userPutMerchant/userPutMerchant",
-            "style" : {
-				"navigationBarTitleText":"申请店铺"
-			}
-        }
-        ,{
-            "path" : "pages/merchant/ifUserPutMer/ifUserPutMer",
-            "style" : {
-				"navigationBarTitleText":"审核中"
-			}
+            "path" : "pages/test/test",
+            "style" : {}
         }
     ],
 	"tabBar": {

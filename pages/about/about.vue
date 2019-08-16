@@ -1,8 +1,11 @@
 <template>
-	<view>
+	<view class="bg-gradual-red" style="height: 2000rpx;">
 		
 		
-		<text style="font-size: 100rpx;">我叫简新远</text>
+		<view class="text-center padding">	
+		<text style="font-size: 100rpx; width: 100%;align-content: center;" class="text-center">不知道说什么</text>	
+		</view>
+		
 		
 	</view>
 </template>

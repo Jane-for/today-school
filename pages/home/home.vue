@@ -69,7 +69,7 @@
 			</view>
 			<!-- 其他功能 -->
 			<view class="cu-list menu">
-				<view class="cu-bar bg-white">
+				<view class="cu-bar bg-white" @click="toSite()">
 					<view class="action">
 						<text class="cuIcon-titles text-green"></text>
 						<text class="text-xl text-bold">管理地址</text>
@@ -123,6 +123,14 @@
 			this.upNew();
 		},
 		methods: {
+			toSite() {
+				uni.navigateTo({
+					url: '../site/site',
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
 			toMyMer() {
 				uni.navigateTo({
 					url: '../merchant/ifUserPutMer/ifUserPutMer',
