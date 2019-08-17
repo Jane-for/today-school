@@ -86,6 +86,10 @@
 				"navigationBarTitleText":"更新地址"
 			}
         }
+        ,{
+            "path" : "pages/merchant/merchantAdmin/merchantAdmin",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#7a7e83",

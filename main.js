@@ -10,6 +10,9 @@ Vue.prototype.UserUrl = 'http://127.0.0.1:6621/school/app/user';
 Vue.prototype.MisUrl = 'http://127.0.0.1:6622/school/app/mis';
 //其他
 Vue.prototype.OthUrl = 'http://127.0.0.1:6623/school/app/oth';
+//user_token
+Vue.prototype.UserToken = '';
+
 
 App.mpType = 'app'
 

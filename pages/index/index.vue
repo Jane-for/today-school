@@ -11,7 +11,7 @@
 		 indicator-active-color="#0081ff">
 			<swiper-item v-for="(item,index) in carList" :key="index" :class="cardCur==index?'cur':''">
 				<view class="swiper-item">
-					<image :src="item.carImgurl" mode="aspectFill" ></image>
+					<image :src="item.carImgurl" mode="aspectFill"></image>
 				</view>
 			</swiper-item>
 		</swiper>
@@ -74,25 +74,36 @@
 			</view>
 		</view>
 
-		<view class="cu-list menu-avatar">
-
-
-			<view class="cu-item cur">
-				<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81020.jpg);">
+		<view class="cu-list menu-avatar" v-for="(item,index) in MisList" :key="index">
+			<view class="cu-item cur" @tap="toSquareInfo" :data-id="item">
+				<!-- :style="{background: 'url('+hello+')'}" -->
+				<view class="cu-avatar radius lg" :style="{backgroundImage: 'url('+item.userImgurl+')'}">
 					<view class="cu-tag badge"></view>
 				</view>
 				<view class="content">
 					<view>
-						<view class="text-cut">戴总</view>
-						<view class="cu-tag round bg-orange sm">10人</view>
+						<view class="text-cut">{{item.misTilte}}</view>
+
+						<view v-if="item.misTime1 != null">
+							<view class="cu-tag round bg-orange sm">{{item.misTime1}}</view>
+						</view>
+						<view v-if="item.misTime2 != null">
+							<view class="cu-tag round bg-orange sm">{{item.misTime2}}</view>
+						</view>
+
 					</view>
 					<view class="text-gray text-sm flex">
-						<view class="text-cut"> 发传单<text class="cuIcon-locationfill text-orange margin-right-xs"></text>招人中</view>
+						<view class="text-cut">{{item.misContent}}
+
+							<text v-if="item.misStruts == 1" class="cuIcon-locationfill text-orange margin-right-xs">招人中</text>
+							<text v-if="item.misStruts == 2" class="cuIcon-locationfill text-orange margin-right-xs">进行中</text>
+							<text v-if="item.misStruts == 3" class="cuIcon-locationfill text-orange margin-right-xs">已完成</text></view>
 					</view>
 				</view>
 				<view class="action">
-					<view class="text-grey text-xs">22:20</view>
+					<view class="text-grey text-xs">{{item.misMoney}}元/天</view>
 				</view>
+
 			</view>
 
 		</view>
@@ -109,23 +120,64 @@
 				carList: [],
 				dotStyle: false,
 				towerStart: 0,
-				direction: ''
+				direction: '',
+				MisList: []
 			};
 		},
 		onLoad() {
-			let that = this;
-			uni.request({
-				url: that.OthUrl + '/carousel/getAll',
-				method: 'GET',
-				data: {},
-				success: res => {
-					that.carList = res.data.result
-				},
-				fail: () => {},
-				complete: () => {}
-			});
+			this.upNew();
+		},
+		onPullDownRefresh() {
+			this.upNew();
 		},
 		methods: {
+			upNew() {
+				let that = this;
+				that.UserToken = uni.getStorageSync("user_token");
+				uni.showNavigationBarLoading();
+				uni.request({
+					url: that.OthUrl + '/carousel/getAll',
+					method: 'GET',
+					data: {},
+					success: res => {
+						that.carList = res.data.result
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+				console.log("that.UserToken: " + that.UserToken);
+				uni.request({
+					url: that.MisUrl + '/mis/getNewList',
+					method: 'POST',
+					header: {
+						'user_token': that.UserToken
+					},
+					data: {},
+					success: res => {
+						that.MisList = res.data.result;
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+				uni.hideNavigationBarLoading();
+				uni.stopPullDownRefresh();
+			},
+			toSquareInfo(e) {
+				let that = this;
+				var item = e.currentTarget.dataset.id;
+				console.log(e.currentTarget.dataset.id);
+				this.TabCur = e.currentTarget.dataset.id;
+				uni.setStorage({
+					key: 'square_info',
+					data: item
+				})
+				uni.navigateTo({
+					url: '../square/squareInfo/squareInfo?misId=' + item.misId,
+					success: res => {},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
 			ing() {
 				uni.showToast({
 					title: '待开发',

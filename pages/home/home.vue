@@ -132,12 +132,41 @@
 				});
 			},
 			toMyMer() {
-				uni.navigateTo({
-					url: '../merchant/ifUserPutMer/ifUserPutMer',
-					success: res => {},
+				let that = this;				
+				uni.request({
+					url: that.MerUrl + '/mer/userGetMer',
+					method: 'POST',
+					header: {
+						'user_token': that.user_token
+					},
+					data: {},
+					success: res => {
+						var info = res.data.result;
+						uni.setStorage({
+							key: 'mer_info',
+							data: info
+						})
+						if (info.merSturts == 0) {
+							uni.navigateTo({
+								url: '../merchant/ifUserPutMer/ifUserPutMer',
+								success: res => {},
+								fail: () => {},
+								complete: () => {}
+							});
+						}
+						if (info.merSturts == 1) {
+							uni.navigateTo({
+								url: '../merchant/merchantAdmin/merchantAdmin',
+								success: res => {},
+								fail: () => {},
+								complete: () => {}
+							});
+						}
+					},
 					fail: () => {},
 					complete: () => {}
 				});
+
 			},
 			upNew() {
 				uni.showNavigationBarLoading();

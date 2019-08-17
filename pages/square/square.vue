@@ -20,7 +20,6 @@
 				<view class="content">
 					<view>
 						<view class="text-cut">{{item.misTilte}}</view>
-
 						<view v-if="item.misTime1 != null">
 							<view class="cu-tag round bg-orange sm">{{item.misTime1}}</view>
 						</view>

@@ -6,10 +6,10 @@
 				<text class="text-black " style=" margin-top: 1000rpx;">您当前的地址为空！</text>
 			</view>
 		</view>
-		<view v-for="item in siteList" :key="item.id">
+		<view v-for="item in siteList" :key="item.id" >	
 
-			<view class="flex bg-white radius margin-top">
-				<view class="flex-twice padding">
+			<view class="flex bg-white radius margin-top align-center shadow">
+				<view class="flex-twice padding-lg margin-xs">
 					<view class="">
 						<text style="font-size: 30rpx;">姓名:</text>{{item.othName}}
 					</view>
@@ -23,9 +23,9 @@
 						<text style="font-size: 30rpx;">联系方式:</text>{{item.othPhone}}
 					</view>
 				</view>
-				<view class=" flex-sub text-center padding">
-					<button class="cu-btn round bg-red  shadow margin-top" @tap="upFalse" :data-target="item.id">删除</button>
-					<button class="cu-btn round bg-olive  shadow margin-top" @tap="upTrue" :data-target="item">编辑</button>
+				<view class=" flex-sub padding-sm margin-xs radius " style="text-align: center;">
+					<button class="cu-btn round bg-red shadow " @tap="upFalse" :data-target="item.id">删除</button>
+					<button class="cu-btn round bg-olive shadow margin-top" @tap="upTrue" :data-target="item">编辑</button>
 				</view>
 			</view>
 
@@ -137,7 +137,7 @@
 						});
 					}
 				})
-				
+
 			}
 		}
 	}
