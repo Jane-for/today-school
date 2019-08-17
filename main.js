@@ -2,14 +2,30 @@ import Vue from 'vue'
 import App from './App'
 
 Vue.config.productionTip = false
+
+
+// 
+// //商家模块
+// Vue.prototype.MerUrl = 'http://wq.qincent.cn:39951/mer';
+// //用户模块
+// Vue.prototype.UserUrl = 'http://wq.qincent.cn:39954/user';
+// //需求模块
+// Vue.prototype.MisUrl = 'http://wq.qincent.cn:39952/mis';
+// //其他
+// Vue.prototype.OthUrl = 'http://wq.qincent.cn:39953/oth';
+
+
+
 //商家模块
-Vue.prototype.MerUrl = 'http://127.0.0.1:6624/school/app/mer';
+Vue.prototype.MerUrl = 'http://127.0.0.1:39951/mer';
 //用户模块
-Vue.prototype.UserUrl = 'http://127.0.0.1:6621/school/app/user';
+Vue.prototype.UserUrl = 'http://127.0.0.1:3994/user';
 //需求模块
-Vue.prototype.MisUrl = 'http://127.0.0.1:6622/school/app/mis';
+Vue.prototype.MisUrl = 'http://127.0.0.1:39952/mis';
 //其他
-Vue.prototype.OthUrl = 'http://127.0.0.1:6623/school/app/oth';
+Vue.prototype.OthUrl = 'http://127.0.0.1:39953/oth';
+
+
 //user_token
 Vue.prototype.UserToken = '';
 

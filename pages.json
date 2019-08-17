@@ -88,8 +88,17 @@
         }
         ,{
             "path" : "pages/merchant/merchantAdmin/merchantAdmin",
-            "style" : {}
-        }
+            "style" : {
+				"navigationBarTitleText":"管理我的店铺",
+				"enablePullDownRefresh": true
+			}
+        },
+		{
+			"path":"pages/merchant/merchantAdmin/addCommons/addCommons",
+			"style":{
+				"navigationBarTitleText":"添加商品"	
+			}
+		}
     ],
 	"tabBar": {
 		"color": "#7a7e83",
