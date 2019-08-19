@@ -4,7 +4,7 @@ import App from './App'
 Vue.config.productionTip = false
 
 
-// 
+
 // //商家模块
 // Vue.prototype.MerUrl = 'http://wq.qincent.cn:39951/mer';
 // //用户模块
@@ -19,15 +19,13 @@ Vue.config.productionTip = false
 //商家模块
 Vue.prototype.MerUrl = 'http://127.0.0.1:39951/mer';
 //用户模块
-Vue.prototype.UserUrl = 'http://127.0.0.1:3994/user';
+Vue.prototype.UserUrl = 'http://127.0.0.1:39954/user';
 //需求模块
 Vue.prototype.MisUrl = 'http://127.0.0.1:39952/mis';
 //其他
 Vue.prototype.OthUrl = 'http://127.0.0.1:39953/oth';
 
 
-//user_token
-Vue.prototype.UserToken = '';
 
 
 App.mpType = 'app'

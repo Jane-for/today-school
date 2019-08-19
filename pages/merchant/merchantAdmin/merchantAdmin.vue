@@ -38,12 +38,8 @@
 
 		<view v-if="tabNum == 0">
 			<!-- 商品管理 -->
-			<!-- <view class="text-center" style="width: 100%;">
-				<button class="cu-btn bg-green round lg shadow">添加商品</button>
-			</view> -->
 			<view v-for="(item,index) in merComList" :key="index">
-
-				<view class="cu-list menu sm-border card-menu margin-top" @click="toNext(11)">
+				<view class="cu-list menu sm-border card-menu margin-top" @click="toUpCom(item)">
 					<view class="cu-item">
 						<view class="content">
 							<image :src="item.comImgurl" class="png" mode="aspectFit"></image>
@@ -65,7 +61,76 @@
 			</view>
 		</view>
 		<view v-if="tabNum == 1">
+			<view v-for="(item,index) in merComTypeList" :key="index">
+				<view class="cu-list menu sm-border card-menu margin-top" @click="toUpType(item)">
+					<view class="cu-item">
+						<view class="align-center content">
+							<text class="text-grey">{{item.type1Name}}</text>
+							<button class="fr cu-btn line-red round l shadow">删除</button>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="cu-list menu sm-border card-menu margin-top" @click="toNext(21)">
+				<view class="cu-item arrow">
+					<view class="content">
+						<image src="/static/tabbar/component_cur.png" class="png" mode="aspectFit"></image>
+						<text class="text-grey">添加类型</text>
+					</view>
+				</view>
+			</view>
+			<!-- <view class="text-center margin-top">
+				<text class="text-grey">#提示:点击商品名称可以对其修改或删除</text>
+			</view> -->
 
+			<view class="cu-modal" :class="addTypeModel=='Modal'?'show':''">
+				<view class="cu-dialog">
+					<view class="cu-bar bg-white justify-end">
+						<view class="content">添加类型</view>
+						<view class="action" @tap="hideAddTypeModel">
+							<text class="cuIcon-close text-red"></text>
+						</view>
+					</view>
+					<view class="padding-xl">
+						<view class="cu-form-group">
+							<view class="title">类型名称:</view>
+							<input placeholder="  " v-model="newTypeName" name="input"></input>
+						</view>
+					</view>
+
+					<view class="cu-bar bg-white justify-end">
+						<view class="action">
+							<button class="cu-btn line-green text-green" @tap="hideAddTypeModel">取消</button>
+							<button class="cu-btn bg-green margin-left" @tap="addType">确定</button>
+
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="cu-modal" :class="typeFlag=='Modal'?'show':''">
+				<view class="cu-dialog">
+					<view class="cu-bar bg-white justify-end">
+						<view class="content">修改类型</view>
+						<view class="action" @tap="hideAddTypeModel">
+							<text class="cuIcon-close text-red"></text>
+						</view>
+					</view>
+					<view class="padding-xl">
+						<view class="cu-form-group">
+							<view class="title">类型名称:</view>
+							<input placeholder="  " v-model="typePojo.type1Name" name="input"></input>
+						</view>
+					</view>
+
+					<view class="cu-bar bg-white justify-end">
+						<view class="action">
+							<button class="cu-btn line-green text-green" @tap="hideAddTypeModel">取消</button>
+							<button class="cu-btn bg-green margin-left" @tap="upType">确定</button>
+
+						</view>
+					</view>
+				</view>
+			</view>
 		</view>
 		<view v-if="tabNum == 2">
 
@@ -82,6 +147,10 @@
 				tabNum: 0,
 				merComList: [],
 				merComTypeList: [],
+				addTypeModel: '',
+				newTypeName: '',
+				typeFlag: '',
+				typePojo: {}, //用于修改类别
 				merInfo: {}
 			}
 		},
@@ -91,8 +160,67 @@
 		onLoad() {
 			this.upNew();
 		},
+		onShow() {
+			this.upNew();
+		},
 		methods: {
+			//确认更新类型
+			upType() {
+
+			},
+			//更新弹窗
+			toUpType(e) {
+				this.typeFlag = 'Modal';
+				this.typePojo = e;
+			},
+			toUpCom(e) {
+				let that = this;
+				uni.setStorage({
+					key: 'old_com',
+					data: e,
+					success() {
+						uni.navigateTo({
+							url: 'upCommodity/upCommodity',
+							success: res => {},
+							fail: () => {},
+							complete: () => {}
+						});
+					}
+				})
+			},
+			//添加类型
+			addType() {
+				let that = this;
+				uni.request({
+
+					url: that.MerUrl + '/marcos/addType',
+					method: 'POST',
+					header: {
+						user_token: that.user_token
+					},
+					data: {
+						name: that.newTypeName
+					},
+					success: res => {
+						uni.showToast({
+							title: '' + res.data.result,
+							icon: 'none',
+							success() {
+								that.addTypeModel = '';
+								that.upNew();
+							}
+						});
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+			},
+			hideAddTypeModel() {
+				this.addTypeModel = '',
+				this.typeFlag = '';
+			},
 			toNext(e) {
+				let that = this;
 				console.log("e: " + e);
 				//跳转到添加商品页面
 				if (e == 11) {
@@ -102,6 +230,10 @@
 						fail: () => {},
 						complete: () => {}
 					});
+				}
+				//跳转到添加类型界面
+				if (e == 21) {
+					that.addTypeModel = 'Modal';
 				}
 			},
 			com() {
@@ -120,42 +252,41 @@
 				let that = this;
 				uni.showNavigationBarLoading();
 				that.user_token = uni.getStorageSync("user_token");
-				if (that.tabNum == 0) {
-					uni.request({
-						url: that.MerUrl + '/marcos/get',
-						method: 'POST',
-						header: {
-							'user_token': that.user_token
-						},
-						data: {},
-						success: res => {
-							that.merComList = res.data.result;
-						},
-						fail: () => {},
-						complete: () => {}
-					});
+				// if (that.tabNum == 0) {
+				uni.request({
+					url: that.MerUrl + '/marcos/get',
+					method: 'POST',
+					header: {
+						'user_token': that.user_token
+					},
+					data: {},
+					success: res => {
+						that.merComList = res.data.result;
+					},
+					fail: () => {},
+					complete: () => {}
+				});
 
-				}
-				if (that.tabNum == 1) {
+				// }
+				// if (that.tabNum == 1) {
+				uni.request({
+					url: that.MerUrl + '/marcos/getType1',
+					method: 'POST',
+					header: {
+						'user_token': that.user_token
+					},
+					data: {},
+					success: res => {
+						that.merComTypeList = res.data.result;
+					},
+					fail: () => {},
+					complete: () => {}
+				});
 
-					uni.request({
-						url: that.MerUrl + '/marcos/getType1',
-						method: 'POST',
-						header: {
-							'user_token': that.user_token
-						},
-						data: {},
-						success: res => {
-							that.merComTypeList = res.data.result;
-						},
-						fail: () => {},
-						complete: () => {}
-					});
+				// }
+				// if (that.tabNum == 2) {
 
-				}
-				if (that.tabNum == 2) {
-
-				}
+				// }
 
 				uni.hideNavigationBarLoading();
 				uni.stopPullDownRefresh();

@@ -5,8 +5,8 @@
 				let that = this;
 				uni.login({
 					success: function(res) {
-						var urlVal = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + "wx2dd1e2aa59ad792d" + '&secret=' +
-							"c5bf449b752ddc4820693ab9ecd7ab39" +
+						var urlVal = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + "wx44458a2d24c31b15" + '&secret=' +
+							"0c57a2c2ddeb08d3d289298684127f4e" +
 							'&js_code=' + res.code + '&grant_type=authorization_code';
 						uni.request({
 							url: urlVal,

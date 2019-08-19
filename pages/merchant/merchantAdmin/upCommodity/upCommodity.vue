@@ -3,7 +3,8 @@
 		<view class="cu-form-group">
 			<view class="title">商品名称:</view>
 			<input placeholder="大卫龙" v-model="comPojo.comName"></input>
-		</view><view class="cu-form-group">
+		</view>
+		<view class="cu-form-group">
 			<view class="title">商品价格:</view>
 			<input placeholder="1.0" v-model="comPojo.comMoney" type="digit"></input>
 		</view>
@@ -43,7 +44,7 @@
 			<text class="text-grey"></text>
 		</view>
 		<view class="padding flex flex-direction" style="margin-top: 50rpx;">
-			<button class="cu-btn bg-red margin-tb-sm lg" style="background: #2486b9;" @tap="showModal" data-target="DialogModal1">添加商品</button>
+			<button class="cu-btn bg-red margin-tb-sm lg" style="background: #2486b9;" @tap="showModal" data-target="DialogModal1">提交修改</button>
 		</view>
 		<view class="cu-modal" :class="yesOrNoName=='DialogModal1'?'show':''">
 			<view class="cu-dialog">
@@ -54,7 +55,7 @@
 					</view>
 				</view>
 				<view class="padding-xl">
-					你确定添加商品吗?
+					你确定修改商品吗?
 				</view>
 				<view class="cu-bar bg-white justify-end">
 					<view class="action">
@@ -90,6 +91,8 @@
 		onLoad() {
 			let token = uni.getStorageSync("user_token");
 			this.user_token = token;
+			var old_com =  uni.getStorageSync("old_com");
+			this.comPojo = old_com;
 			console.log("this.user_token: " + this.user_token);
 			uni.request({
 				url: this.MerUrl + '/marcos/getType1',
@@ -180,10 +183,12 @@
 						let result = res.data.result;
 						uni.showToast({
 							title: '' + result,
-							icon: 'none'
-						});
-						uni.navigateBack({
-							delta: 1
+							icon: 'none',
+							success() {
+								uni.navigateBack({
+									delta: 1
+								});
+							}
 						});
 					},
 					fail: () => {},
