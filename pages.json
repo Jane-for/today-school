@@ -79,28 +79,41 @@
 			"style": {
 				"navigationBarTitleText": "没什么用的页面"
 			}
-		}
-	    ,{
-            "path" : "pages/site/upSite/upSite",
-            "style" : {
-				"navigationBarTitleText":"更新地址"
+		}, {
+			"path": "pages/site/upSite/upSite",
+			"style": {
+				"navigationBarTitleText": "更新地址"
 			}
-        }
-        ,{
-            "path" : "pages/merchant/merchantAdmin/merchantAdmin",
-            "style" : {
-				"navigationBarTitleText":"管理我的店铺",
+		}, {
+			"path": "pages/merchant/merchantAdmin/merchantAdmin",
+			"style": {
+				"navigationBarTitleText": "管理我的店铺",
 				"enablePullDownRefresh": true
 			}
-        },
+		},
 		{
-			"path":"pages/merchant/merchantAdmin/addCommons/addCommons",
+			"path": "pages/merchant/merchantAdmin/addCommons/addCommons",
+			"style": {
+				"navigationBarTitleText": "添加商品"
+			}
+		}, {
+			"path": "pages/merchant/merchantAdmin/upCommodity/upCommodity",
+			"style": {
+				"navigationBarTitleText": "修改商品"
+			}
+		}, {
+			"path": "pages/shopping/shopping",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},{
+			"path":"pages/comMaster/comMaster",
 			"style":{
-				"navigationBarTitleText":"添加商品"	
+				// ""
 			}
 		}
         ,{
-            "path" : "pages/merchant/merchantAdmin/upCommodity/upCommodity",
+            "path" : "pages/merIndex/merIndex",
             "style" : {}
         }
     ],
@@ -111,6 +124,11 @@
 		"list": [{
 			"pagePath": "pages/index/index",
 			"text": "首页",
+			"iconPath": "static/img/home.png",
+			"selectedIconPath": "static/img/homeHL.png"
+		}, {
+			"pagePath": "pages/shopping/shopping",
+			"text": "购物车",
 			"iconPath": "static/img/home.png",
 			"selectedIconPath": "static/img/homeHL.png"
 		}, {
@@ -131,14 +149,12 @@
 		"navigationBarBackgroundColor": "#2486b9",
 		"backgroundColor": "#2486b9"
 	},
-	"condition" : { //模式配置，仅开发期间生效
+	"condition": { //模式配置，仅开发期间生效
 		"current": 0, //当前激活的模式(list 的索引项)
-		"list": [
-			{
-				"name": "", //模式名称
-				"path": "pages/site/addSite/addSite", //启动页面，必选
-				"query": "" //启动参数，在页面的onLoad函数里面得到
-			}
-		]
+		"list": [{
+			"name": "", //模式名称
+			"path": "pages/index/index", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
 	}
 }

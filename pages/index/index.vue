@@ -25,20 +25,21 @@
 		</view>
 
 		<view class="cu-list menu-avatar">
-			<view class="cu-item cur" @click="ing()">
-				<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81020.jpg);">
+			<view v-for="(item,index) in comList" :key="index" class="cu-item cur" @click="ing()">
+				<view class="cu-avatar radius lg" :style="'background-image:url('+item.comImgurl+');'">
 					<!-- <view class="cu-tag badge"></view> -->
 				</view>
 				<view class="content">
 					<view>
-						<view class="text-cut">卫龙辣条</view>
+						<view class="text-cut">{{item.comName}}</view>
 					</view>
 					<view class="text-gray text-sm flex">
-						<view class="text-cut"> 超好吃
+						<view class="text-cut"> {{item.comMoney}}元/份
 						</view>
 					</view>
 				</view>
 				<view class="action">
+					添加
 				</view>
 			</view>
 		</view>
@@ -50,15 +51,18 @@
 			</view>
 		</view>
 
-		<view class="cu-list menu-avatar" @click="ing()">
-			<view class="cu-item cur">
-				<view class="cu-avatar radius lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81020.jpg);"></view>
+		<view class="cu-list menu-avatar">
+			<view v-for="(item,index) in merList" :key="index" class="cu-item cur" @click="ing()">
+				<view class="cu-avatar radius lg" :style="'background-image:url('+item.merImgurl+');'">
+					<!-- <view class="cu-tag badge"></view> -->
+				</view>
 				<view class="content">
 					<view>
-						<view class="text-cut">零食小铺</view>
+						<view class="text-cut">{{item.merName}}</view>
 					</view>
 					<view class="text-gray text-sm flex">
-						<view class="text-cut">急速送达</view>
+						<view class="text-cut"> {{item.merInfo}}
+						</view>
 					</view>
 				</view>
 				<view class="action">
@@ -83,7 +87,6 @@
 				<view class="content">
 					<view>
 						<view class="text-cut">{{item.misTilte}}</view>
-
 						<view v-if="item.misTime1 != null">
 							<view class="cu-tag round bg-orange sm">{{item.misTime1}}</view>
 						</view>
@@ -121,6 +124,8 @@
 				dotStyle: false,
 				towerStart: 0,
 				direction: '',
+				comList: [],
+				merList: [],
 				MisList: []
 			};
 		},
@@ -155,6 +160,26 @@
 					data: {},
 					success: res => {
 						that.MisList = res.data.result;
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+				uni.request({
+					url: that.MerUrl + '/marcos/getNewCom',
+					method: 'POST',
+					data: {},
+					success: res => {
+						that.comList = res.data.result;
+					},
+					fail: () => {},
+					complete: () => {}
+				});
+				uni.request({
+					url: that.MerUrl + '/marcos/getNewMer',
+					method: 'POST',
+					data: {},
+					success: res => {
+						that.merList = res.data.result;
 					},
 					fail: () => {},
 					complete: () => {}

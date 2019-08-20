@@ -62,7 +62,8 @@
             "es6" : false,
             "postcss" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {}
     },
     "mp-alipay" : {
         "usingComponents" : true

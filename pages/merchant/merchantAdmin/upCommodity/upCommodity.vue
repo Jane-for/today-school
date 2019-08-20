@@ -21,7 +21,6 @@
 						空
 					</view>
 				</view>
-
 			</picker>
 		</view>
 		<view class="cu-form-group ">
@@ -194,8 +193,6 @@
 					fail: () => {},
 					complete: () => {}
 				});
-
-
 			}
 
 		}
