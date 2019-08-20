@@ -3,7 +3,8 @@
 		<view class="cu-form-group">
 			<view class="title">商品名称:</view>
 			<input placeholder="大卫龙" v-model="comPojo.comName"></input>
-		</view><view class="cu-form-group">
+		</view>
+		<view class="cu-form-group">
 			<view class="title">商品价格:</view>
 			<input placeholder="1.0" v-model="comPojo.comMoney" type="digit"></input>
 		</view>
@@ -180,10 +181,12 @@
 						let result = res.data.result;
 						uni.showToast({
 							title: '' + result,
-							icon: 'none'
-						});
-						uni.navigateBack({
-							delta: 1
+							icon: 'none',
+							success() {
+								uni.navigateBack({
+									delta: 1
+								});
+							}
 						});
 					},
 					fail: () => {},

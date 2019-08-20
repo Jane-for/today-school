@@ -173,7 +173,7 @@
 					}
 				});
 				uni.request({
-					url: that.MerUrl + '/marcos/userAddCom',
+					url: that.MerUrl + '/marcos/userUpCom',
 					method: 'POST',
 					header: {
 						'user_token': that.user_token
